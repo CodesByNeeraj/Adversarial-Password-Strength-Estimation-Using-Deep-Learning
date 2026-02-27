@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from models import Generator, Discriminator
-from utils import initialize_weights, TextDataset
+from utils import TextDataset
 
 #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 seq_len = 10
@@ -137,6 +137,10 @@ def train():
                 f"Loss D: {d_loss.item():.4f}, Loss G: {g_loss.item():.4f} "
                 f"GP: {gp.item():.4f}"
             )
+            
+    
+    print("Training complete! Saving generator...")
+    torch.save(gen.state_dict(), "generator_weights.pth")
 
 if __name__ == "__main__":
     train()
