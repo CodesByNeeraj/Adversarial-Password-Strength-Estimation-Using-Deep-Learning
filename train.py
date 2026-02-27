@@ -53,6 +53,12 @@ def gradient_penalty(disc, real_samples, fake_samples):
     
     return gradient_penalty
     
+    
+def get_infinite_batches(dataloader):
+    # This acts just like the paper's inf_train_gen()
+    while True:
+        for batch in dataloader:
+            yield batch
 
 def train():
     
@@ -77,58 +83,61 @@ def train():
     gen.train()
     disc.train()
     
+    data_iterator = iter(get_infinite_batches(dataloader))
     print("Starting WGAN training now...")
     
+    # Notice we loop over iterations now, not epochs (just like the paper)
+    total_iterations = 200000
+    
     #training loop
-    for epoch in range(num_epochs):
-        for batch_idx,real_indxes in enumerate(dataloader):
+    for iteration in range(total_iterations):
+        for _ in range(critic_iters):
             #real_indxes --> tensor of shape (64,10): 64 passwords with each of size 10
-            real_indxes = real_indxes.to(device)
+            real_indxes = next(data_iterator).to(device)
             curr_batch_size = real_indxes.size(0)
             
             real_data_one_hot = F.one_hot(real_indxes.long(),num_classes=vocab_size)
             real_data = real_data_one_hot.permute(0,2,1).float()
             
             #training the discriminator
-            for _ in range(critic_iters):
-                optimizer_D.zero_grad()
-                
-                noise = torch.randn(curr_batch_size,128).to(device)
-                fake_data = gen(noise)
-                
-                critic_real = disc(real_data)
-                #we detach to freeze the generator
-                critic_fake = disc(fake_data.detach())
-                
-                gp = gradient_penalty(disc, real_data, fake_data.detach())
-                
-                # Critic Loss = -(Real - Fake) + (Lambda * GP)
-                d_loss = (
-                    -(torch.mean(critic_real) - torch.mean(critic_fake)) 
-                    + (lambda_gp * gp)
-                )
-                d_loss.backward()
-                optimizer_D.step()
-                
-            #train generator
-            optimizer_G.zero_grad()
-            noise = torch.randn(curr_batch_size, 128).to(device)
+            optimizer_D.zero_grad()
+            
+            noise = torch.randn(curr_batch_size,128).to(device)
             fake_data = gen(noise)
             
-            # Generator wants Critic to output High Real Score
-            gen_fake_score = disc(fake_data)
-            g_loss = -torch.mean(gen_fake_score)
+            critic_real = disc(real_data)
+            #we detach to freeze the generator
+            critic_fake = disc(fake_data.detach())
             
-            g_loss.backward()
-            optimizer_G.step()
+            gp = gradient_penalty(disc, real_data, fake_data.detach())
             
-            # --- LOGGING ---
-            if batch_idx % 100 == 0:
-                print(
-                    f"Epoch [{epoch}/{num_epochs}] Batch {batch_idx}/{len(dataloader)} "
-                    f"Loss D: {d_loss.item():.4f}, Loss G: {g_loss.item():.4f} "
-                    f"GP: {gp.item():.4f}"
-                )
+            # Critic Loss = -(Real - Fake) + (Lambda * GP)
+            d_loss = (
+                -(torch.mean(critic_real) - torch.mean(critic_fake)) 
+                + (lambda_gp * gp)
+            )
+            d_loss.backward()
+            optimizer_D.step()
+                
+        #train generator
+        optimizer_G.zero_grad()
+        noise = torch.randn(curr_batch_size, 128).to(device)
+        fake_data = gen(noise)
+        
+        # Generator wants Critic to output High Real Score
+        gen_fake_score = disc(fake_data)
+        g_loss = -torch.mean(gen_fake_score)
+        
+        g_loss.backward()
+        optimizer_G.step()
+            
+        # --- LOGGING ---
+        if iteration % 100 == 0:
+            print(
+                f"Iteration [{iteration}/{total_iterations}] "
+                f"Loss D: {d_loss.item():.4f}, Loss G: {g_loss.item():.4f} "
+                f"GP: {gp.item():.4f}"
+            )
 
 if __name__ == "__main__":
     train()
