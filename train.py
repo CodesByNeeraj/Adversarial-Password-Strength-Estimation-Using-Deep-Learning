@@ -12,7 +12,6 @@ vocab_size = 69
 hidden_dim = 128
 batch_size = 64
 l_r = 1e-4
-num_epochs = 1000
 critic_iters = 10
 lambda_gp = 10
 
@@ -87,7 +86,7 @@ def train():
     print("Starting WGAN training now...")
     
     # Notice we loop over iterations now, not epochs (just like the paper)
-    total_iterations = 200000
+    total_iterations = 100
     
     #training loop
     for iteration in range(total_iterations):
