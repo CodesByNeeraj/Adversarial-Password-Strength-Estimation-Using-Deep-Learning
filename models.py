@@ -41,7 +41,7 @@ class Generator(nn.Module):
         #width 10 positions , height = 128
         #convulational layers require a 2d matrix so we multiply here
         #takes noise (128) and expands to 2d matrix
-        self.linear = nn.Linear(128,seq_len*hidden_dim)
+        self.linear = nn.Linear(hidden_dim,seq_len*hidden_dim)
         
         self.blocks = nn.Sequential(
             ResidualBlock(hidden_dim),
