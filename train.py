@@ -1,3 +1,5 @@
+##Matched basedline PASSGAN for 900K dataset
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -63,7 +65,7 @@ def train():
     
     print(f"Training on: {device}")
     
-    dataset = TextDataset("./data/rockyou.txt")
+    dataset = TextDataset("./data/fullData_900k.txt")
     dataloader = DataLoader(dataset,batch_size=batch_size,shuffle=True)
 
     #initialising models
@@ -86,7 +88,7 @@ def train():
     print("Starting WGAN training now...")
     
     # Notice we loop over iterations now, not epochs (just like the paper)
-    total_iterations = 100
+    total_iterations = 100000
     
     #training loop
     for iteration in range(total_iterations):
