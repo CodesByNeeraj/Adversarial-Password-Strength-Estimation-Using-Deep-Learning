@@ -30,5 +30,33 @@ Train a diffusion-based password generator on the RockYou dataset combined with 
 - Comparative analysis of diffusion models (PassDiffusion) over GAN model (PassGAN)
 - Password Strength Estimation WebApp and Research Paper (if findings are substantial enough that warrants a research paper)
 
+## Milestone 1: Problem + Baseline
+- PassGAN replication, data prep
+- PyTorch implementation—6.9% match
 
+## Milestone 2: PassDiffusion
+- Implement & train diffusion model
+- Integrate latest password leak datasets
 
+## Milestone 3: Evaluation & Report
+- Full comparison, final write-up
+- Password strength estimation WebApp
+
+## Datasets Used
+### For Milestone 1
+1. https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+### For Milestone 2 Onwards
+2. 2025 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2025-199_most_used_passwords.txt
+3. 2024 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2024-197_most_used_passwords.txt
+4. 2023 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2023-200_most_used_passwords.txt
+5. 2017 Dark Web 10,000 Leaked Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/darkweb2017_top-10000.txt
+6. Lizard Squad Hacker Group: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/Lizard-Squad.txt 
+
+## Presentation Slides For Milestone 1
+https://tinyurl.com/PassDiffusion 
+
+## References
+1. PassGAN: A Deep Learning Approach for Password Guessing 
+https://arxiv.org/pdf/1709.00440
+
+2. PassGAN Code: https://github.com/brannondorsey/PassGAN/tree/master
