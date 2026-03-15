@@ -47,10 +47,25 @@ def generate_passwords(num_to_generate=10):
         generated_passwords.append(clean_pwd)
         
     return generated_passwords
-
+'''
 if __name__ == "__main__":
-    passwords = generate_passwords(20)
+    passwords = generate_passwords(100000)
     
     print("\n--- GENERATED PASSWORDS ---")
     for p in passwords:
         print(p)
+'''
+
+if __name__ == "__main__":
+    num_generate = 100000
+    passwords = generate_passwords(num_generate)
+
+    output_file = "generated_passwords.txt"
+
+    print(f"\nSaving {num_generate} passwords to {output_file}...")
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        for p in passwords:
+            f.write(p + "\n")
+
+    print("Done.")
