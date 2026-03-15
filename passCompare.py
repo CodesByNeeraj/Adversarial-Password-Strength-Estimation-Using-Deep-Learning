@@ -1,40 +1,43 @@
 # files
 generated_file = "generated_passwords.txt"
 full_file = "data/fullData.txt"
-
-# -------------------------------
-# Step 1: load generated dataset
-# -------------------------------
+# --------------------------------------------------
+# Step 1: Load generated passwords (remove duplicates)
+# --------------------------------------------------
 with open(generated_file, "r", encoding="utf-8") as f:
-    generated_set = set(line.strip() for line in f)
+    generated_set = set(line.strip() for line in f if line.strip())
 
-print("Generated dataset size:", len(generated_set))
+print("Unique passwords in generated.txt:", len(generated_set))
 
-# -----------------------------------------
-# Step 2: read full dataset (skip first 900K)
-# -----------------------------------------
-matches = 0
-checked = 0
+# --------------------------------------------------
+# Step 2: Read full dataset, skip first 900K, remove duplicates
+# --------------------------------------------------
+full_set = set()
 
 with open(full_file, "r", encoding="utf-8") as f:
     
-    # skip first 900k lines
+    # Skip first 900k lines
     for _ in range(900000):
         next(f)
 
-    # compare remaining lines
+    # Store remaining unique passwords
     for line in f:
-        checked += 1
-        item = line.strip()
+        pwd = line.strip()
+        if pwd:
+            full_set.add(pwd)
 
-        if item in generated_set:
-            matches += 1
+print("Unique passwords in filtered full dataset:", len(full_set))
 
-# -----------------------------------------
-# Results
-# -----------------------------------------
-print("Lines checked after skipping:", checked)
-print("Matches found:", matches)
+# --------------------------------------------------
+# Step 3: Compute unique matches
+# --------------------------------------------------
+matches = generated_set.intersection(full_set)
 
-similarity = matches / len(generated_set) * 100
-print(f"Similarity percentage: {similarity:.4f}%")
+print("Unique matches:", len(matches))
+
+# --------------------------------------------------
+# Step 4: Similarity percentage
+# --------------------------------------------------
+similarity = (len(matches) / len(generated_set)) * 100
+
+print(f"Unique similarity: {similarity:.4f}%")
