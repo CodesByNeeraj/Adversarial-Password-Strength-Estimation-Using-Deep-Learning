@@ -1,6 +1,7 @@
 # files
-generated_file = "generated_passwords.txt"
-full_file = "data/fullData.txt"
+generated_file = "generated_passwordstest.txt"
+test_file = "data/test.txt"
+
 # --------------------------------------------------
 # Step 1: Load generated passwords (remove duplicates)
 # --------------------------------------------------
@@ -10,28 +11,18 @@ with open(generated_file, "r", encoding="utf-8") as f:
 print("Unique passwords in generated.txt:", len(generated_set))
 
 # --------------------------------------------------
-# Step 2: Read full dataset, skip first 900K, remove duplicates
+# Step 2: Load held-out test set (already deduplicated
+#         and guaranteed not to overlap with train.txt)
 # --------------------------------------------------
-full_set = set()
+with open(test_file, "r", encoding="utf-8") as f:
+    test_set = set(line.strip() for line in f if line.strip())
 
-with open(full_file, "r", encoding="utf-8") as f:
-    
-    # Skip first 900k lines
-    for _ in range(900000):
-        next(f)
-
-    # Store remaining unique passwords
-    for line in f:
-        pwd = line.strip()
-        if pwd:
-            full_set.add(pwd)
-
-print("Unique passwords in filtered full dataset:", len(full_set))
+print("Unique passwords in test set:", len(test_set))
 
 # --------------------------------------------------
 # Step 3: Compute unique matches
 # --------------------------------------------------
-matches = generated_set.intersection(full_set)
+matches = generated_set.intersection(test_set)
 
 print("Unique matches:", len(matches))
 
