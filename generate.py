@@ -1,15 +1,16 @@
+import json
 import torch
-import string
 from models import Generator
 
-# 1. Recreate the exact same character map from your Dataset
-chars = "`" + string.ascii_lowercase + string.ascii_uppercase + string.digits + "!@#$%^"
-idx2char = {idx: char for idx, char in enumerate(chars)}
+# 1. Load vocabulary built during training
+with open("vocab.json", "r", encoding="utf-8") as f:
+    idx2char_list = json.load(f)
+idx2char = {idx: char for idx, char in enumerate(idx2char_list)}
 
 # 2. Setup
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 seq_len = 10
-vocab_size = 69
+vocab_size = len(idx2char_list)
 hidden_dim = 128
 
 def generate_passwords(num_to_generate=10):
@@ -42,8 +43,8 @@ def generate_passwords(num_to_generate=10):
         for idx in row:
             pwd += idx2char[idx.item()]
             
-        # Strip away the padding characters to get the real password
-        clean_pwd = pwd.replace("`", "") 
+        # Strip away the unk/padding token (index 0) to get the real password
+        clean_pwd = pwd.replace(idx2char[0], "")
         generated_passwords.append(clean_pwd)
         
     return generated_passwords
