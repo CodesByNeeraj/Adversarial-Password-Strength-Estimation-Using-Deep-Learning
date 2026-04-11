@@ -9,12 +9,14 @@ from models import Generator, Discriminator
 from utils import TextDataset
 
 #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#password chars are 10 characters long
 seq_len = 10
-vocab_size = 69
 hidden_dim = 128
 batch_size = 64
 l_r = 1e-4
+#train critic 10 times per generator step 
 critic_iters = 10
+#strength of gradient penalty
 lambda_gp = 10
 
 #use gpu if computer have or is connected to cloud gpu or else use cpu
@@ -67,6 +69,7 @@ def train():
     
     dataset = TextDataset("./data/fullData_900k.txt")
     dataloader = DataLoader(dataset,batch_size=batch_size,shuffle=True)
+    vocab_size = dataset.vocab_size
 
     #initialising models
     gen = Generator(seq_len,vocab_size,hidden_dim).to(device)
@@ -88,7 +91,9 @@ def train():
     print("Starting WGAN training now...")
     
     # Notice we loop over iterations now, not epochs (just like the paper)
-    total_iterations = 100000
+    #same iterations as the paper
+    #total_iterations = 199,000
+    total_iterations = 10,000
     
     #training loop
     for iteration in range(total_iterations):
@@ -143,6 +148,7 @@ def train():
     
     print("Training complete! Saving generator...")
     torch.save(gen.state_dict(), "generator_weights.pth")
+    dataset.save_vocab("vocab.json")
 
 if __name__ == "__main__":
     train()
