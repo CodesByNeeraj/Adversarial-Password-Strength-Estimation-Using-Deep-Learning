@@ -58,10 +58,10 @@ if __name__ == "__main__":
 '''
 
 if __name__ == "__main__":
-    num_generate = 100000
+    num_generate = 10000
     passwords = generate_passwords(num_generate)
 
-    output_file = "generated_passwords.txt"
+    output_file = "generated_passwordstest.txt"
 
     print(f"\nSaving {num_generate} passwords to {output_file}...")
 
