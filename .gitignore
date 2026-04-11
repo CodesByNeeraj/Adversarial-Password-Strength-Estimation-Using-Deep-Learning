@@ -1,0 +1,7 @@
+# Large data files - do not commit
+data/fullData.txt
+data/train.txt
+data/test.txt
+generated_passwords.txt
+generated_passwordstest.txt
+*.pth
