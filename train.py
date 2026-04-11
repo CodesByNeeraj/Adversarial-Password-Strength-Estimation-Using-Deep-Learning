@@ -1,5 +1,5 @@
 ##Matched basedline PASSGAN for 900K dataset
-
+ #C:\Users\rajne\passganenv\Scripts\python.exe train.py
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -67,7 +67,7 @@ def train():
     
     print(f"Training on: {device}")
     
-    dataset = TextDataset("./data/fullData_900k.txt")
+    dataset = TextDataset("./data/train.txt")
     dataloader = DataLoader(dataset,batch_size=batch_size,shuffle=True)
     vocab_size = dataset.vocab_size
 
@@ -93,7 +93,7 @@ def train():
     # Notice we loop over iterations now, not epochs (just like the paper)
     #same iterations as the paper
     #total_iterations = 199,000
-    total_iterations = 10,000
+    total_iterations = 199,000
     
     #training loop
     for iteration in range(total_iterations):
