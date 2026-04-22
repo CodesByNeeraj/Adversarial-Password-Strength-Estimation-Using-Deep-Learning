@@ -1,5 +1,5 @@
-##Matched basedline PASSGAN for 900K dataset
- #C:\Users\rajne\passganenv\Scripts\python.exe train.py
+#Matched basedline PASSGAN for 900K dataset
+#C:\Users\rajne\passganenv\Scripts\python.exe train.py
 #git status 
 #git add filename
 #git commit -m "message"
