@@ -2,51 +2,42 @@ import json
 import torch
 from models import Generator
 
-# 1. Load vocabulary built during training
+#Load vocabulary built during training
 with open("vocab.json", "r", encoding="utf-8") as f:
     idx2char_list = json.load(f)
 idx2char = {idx: char for idx, char in enumerate(idx2char_list)}
 
-# 2. Setup
+#Setup
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 seq_len = 10
 vocab_size = len(idx2char_list)
 hidden_dim = 128
 
-def generate_passwords(num_to_generate=10):
+def generate_passwords(num_to_generate=10, batch_size=1024):
     print("Loading Generator...")
-    # Initialize the model skeleton
     gen = Generator(seq_len, vocab_size, hidden_dim).to(device)
-    
-    # Load the trained weights
     gen.load_state_dict(torch.load("generator_weights.pth", map_location=device))
-    
-    # Put the model in "evaluation" mode (turns off training features)
     gen.eval()
-    
-    # 3. Create random noise (the "seed" for our passwords)
-    noise = torch.randn(num_to_generate, 128).to(device)
-    
-    # 4. Generate!
-    with torch.no_grad(): # Don't track gradients, saves memory
-        # Output shape: (batch_size, 69_vocab, 10_positions)
-        raw_output = gen(noise) 
-        
-    # 5. Find the highest probability character for each position
-    # This squashes the 69 probabilities down to 1 winning index
-    best_guesses = torch.argmax(raw_output, dim=1) 
-    
-    # 6. Translate numbers back to text
+
     generated_passwords = []
-    for row in best_guesses:
-        pwd = ""
-        for idx in row:
-            pwd += idx2char[idx.item()]
-            
-        # Strip away the unk/padding token (index 0) to get the real password
-        clean_pwd = pwd.replace(idx2char[0], "")
-        generated_passwords.append(clean_pwd)
-        
+    generated = 0
+
+    with torch.no_grad():
+        while generated < num_to_generate:
+            current_batch = min(batch_size, num_to_generate - generated)
+            noise = torch.randn(current_batch, 128).to(device)
+            raw_output = gen(noise)
+            best_guesses = torch.argmax(raw_output, dim=1)
+
+            for row in best_guesses:
+                pwd = "".join(idx2char[idx.item()] for idx in row)
+                clean_pwd = pwd.replace(idx2char[0], "")
+                generated_passwords.append(clean_pwd)
+
+            generated += current_batch
+            if generated % 10000 == 0 or generated == num_to_generate:
+                print(f"Generated {generated}/{num_to_generate}...")
+
     return generated_passwords
 '''
 if __name__ == "__main__":
@@ -58,10 +49,10 @@ if __name__ == "__main__":
 '''
 
 if __name__ == "__main__":
-    num_generate = 10000
+    num_generate = 1000000
     passwords = generate_passwords(num_generate)
 
-    output_file = "generated_passwordstest.txt"
+    output_file = "generated_1e6.txt"
 
     print(f"\nSaving {num_generate} passwords to {output_file}...")
 
