@@ -4,9 +4,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
 
 MODEL_PATH     = "gpt2_password_model"
-OUTPUT_FILE    = "gpt2_generated.txt"
+OUTPUT_FILE    = "data/gpt2_generated_1e4.txt"
 #adjustable number. for trend analysis
-NUM_GENERATE   = 100000000
+NUM_GENERATE   = 10000
 BATCH_SIZE     = 256
 #10 chars + 1 EOS (each token = 1 char after char-level retrain)
 MAX_NEW_TOKENS = 11
