@@ -1,5 +1,9 @@
 ##Matched basedline PASSGAN for 900K dataset
  #C:\Users\rajne\passganenv\Scripts\python.exe train.py
+#git status 
+#git add filename
+#git commit -m "message"
+#git push 
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -93,7 +97,7 @@ def train():
     # Notice we loop over iterations now, not epochs (just like the paper)
     #same iterations as the paper
     #total_iterations = 199,000
-    total_iterations = 199,000
+    total_iterations = 199000
     
     #training loop
     for iteration in range(total_iterations):
