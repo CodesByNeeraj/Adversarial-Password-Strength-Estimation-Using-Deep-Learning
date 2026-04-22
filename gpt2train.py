@@ -9,21 +9,20 @@ from transformers import (
 from transformers.trainer_utils import get_last_checkpoint
 from datasets import Dataset
 
-# --------------------------------------------------
-# Config
-# --------------------------------------------------
 MODEL_ID   = "gpt2"
 DATA_FILE  = "data/train.txt"
 OUTPUT_DIR = "gpt2_password_model"
-MAX_LENGTH = 12    # 10 chars + 1 EOS + 1 buffer (each char = exactly 1 token now)
+# 10 chars + 1 EOS + 1 buffer (each char = exactly 1 token now)
 NUM_EPOCHS = 3
+MAX_LENGTH = 12 
 BATCH_SIZE = 512
 
-# Set to None to train on the full dataset (~9.5M passwords, ~2-3 hrs)
-# Set to a number (e.g. 50_000) for a fast smoke-test (~5-10 min)
-SAMPLE_SIZE = None  # smoke-test. Change to None for full dataset (~9.5M passwords)
+#set to None to train on the full dataset (~9.5M passwords, ~2-3 hrs)
+#set to a number (e.g. 50_000) for a fast smoke-test (~5-10 min)
+SAMPLE_SIZE = None
 
 if __name__ == "__main__":
+    #check if gpu is available
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Training on: {device}")
 
@@ -43,7 +42,7 @@ if __name__ == "__main__":
         passwords = passwords[:SAMPLE_SIZE]
         print(f"Quick-test mode: using first {len(passwords):,} passwords")
 
-    # Build char→token_id lookup once — avoids millions of tokenizer.encode() calls.
+    #build char→token_id lookup once:avoids millions of tokenizer.encode() calls.
     all_chars = set(ch for p in passwords for ch in p)
     char_to_tid = {}
     for ch in all_chars:
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     EOS = tokenizer.eos_token_id
     PAD = tokenizer.pad_token_id
 
-    # Tokenize directly (no dataset.map / no multiprocessing — avoids Windows pickle issues).
+    #tokenize directly (no dataset.map/no multiprocessing. this avoids Windows pickle issues).
     print("Tokenizing dataset (char-level)...")
     all_input_ids, all_labels, all_masks = [], [], []
     for password in passwords:
