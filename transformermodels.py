@@ -54,28 +54,51 @@ class PasswordTransformer(nn.Module):
         return logits
 
     @torch.no_grad()
-    def generate(self, num_passwords, device, temperature=1.0, unk_idx=0):
+    def generate(self, num_passwords, device, temperature=1.0, unk_idx=0,
+                 first_char_probs=None):
         """
         Autoregressively sample passwords.
-        Uses unk (index 0) as a BOS token, generates seq_len more tokens,
-        then strips the BOS so output length is seq_len.
+
+        Samples the first character from first_char_probs (the empirical
+        distribution of first characters in the training data).  This avoids
+        the BOS=unk bug: the unk embedding is never trained (ignore_index=0
+        zeroes out its gradient), so starting generation from unk puts the
+        model completely out-of-distribution.
+
+        first_char_probs: 1-D tensor of shape (vocab_size,) on `device`.
+                          If None, samples uniformly from non-unk tokens.
         """
         self.eval()
 
-        # seed with BOS = unk token
-        tokens = torch.full((num_passwords, 1), unk_idx, dtype=torch.long, device=device)
+        # --- seed with a real first character, NOT unk ---
+        if first_char_probs is None:
+            # fallback: uniform over all non-unk tokens
+            first_char_probs = torch.ones(self.vocab_size, device=device)
+            first_char_probs[unk_idx] = 0.0
+            first_char_probs = first_char_probs / first_char_probs.sum()
 
+        # (num_passwords, 1)
+        first_tokens = torch.multinomial(
+            first_char_probs.unsqueeze(0).expand(num_passwords, -1),
+            num_samples=1
+        )
+        tokens = first_tokens
+
+        # generate seq_len-1 more tokens → total length = seq_len
         for _ in range(self.seq_len - 1):
             # (batch, current_len, vocab_size)
-            logits = self.forward(tokens)        
+            logits = self.forward(tokens)
             # only care about the last position
-            next_logits = logits[:, -1, :]       
+            next_logits = logits[:, -1, :]
             if temperature != 1.0:
                 next_logits = next_logits / temperature
             probs = torch.softmax(next_logits, dim=-1)
+            # never sample unk mid-password (model never learned to predict it)
+            probs[:, unk_idx] = 0.0
+            probs = probs / probs.sum(dim=-1, keepdim=True)
             # (batch, 1)
-            next_token = torch.multinomial(probs, num_samples=1) 
+            next_token = torch.multinomial(probs, num_samples=1)
             tokens = torch.cat([tokens, next_token], dim=1)
 
-        # strip the BOS token; result is (num_passwords, seq_len - 1)
-        return tokens[:, 1:]
+        # result is (num_passwords, seq_len)
+        return tokens
