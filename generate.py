@@ -48,6 +48,7 @@ if __name__ == "__main__":
         print(p)
 '''
 
+#modify as needed (to generate different amounts of passwords)
 if __name__ == "__main__":
     num_generate = 1000000
     passwords = generate_passwords(num_generate)
