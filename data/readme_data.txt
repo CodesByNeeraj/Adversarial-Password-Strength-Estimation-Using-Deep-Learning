@@ -27,5 +27,12 @@ files using this dataset:
 1. gpt2train.py
 2. gpt2generate.py
 
+4. Hashcat - https://hashcat.net/hashcat/ 
+Password cracking tool using rule based methods
+Used on:
+Ignis 10M Dataset (A collection of 10 million passwords that were leaked. Published in 2020.)
+https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt
+
+
 
 
