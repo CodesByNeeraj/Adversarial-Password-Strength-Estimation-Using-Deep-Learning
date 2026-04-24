@@ -1,62 +1,201 @@
-# Adversarial-Password-Strength-Estimation-Using-Deep-Learning
-Can Generative AI model the probability distribution of human-created passwords better than traditional rule-based algorithms?
+# Adversarial Password Strength Estimation Using Deep Learning
+
+Can generative AI model the probability distribution of human-created passwords better than traditional rule-based algorithms?
 
 ## Abstract
-Passwords are still the most common way people protect their online accounts, but many
-users continue to choose predictable passwords. Security tools like Hashcat try to guess these
-passwords using some password generation rules such as adding numbers, changing letters to
-symbols, or capitalizing words. These rules work well for simple patterns, but they cannot
-adapt to new trends or understand the complex structure behind how humans create
-passwords. Recent research showed that a generative adversarial network (PassGAN) can
-learn password patterns directly from leaked datasets like RockYou, improving password
-guessing without relying on traditional rules. However, GANs have known issues such as
-unstable training and mode collapse, which can limit their ability to detect complex password
-patterns. To address this gap, we aim to build a Diffusion-based password generator
-(PassDiffusion) and use PassGAN as the main baseline. Since, diffusion models have
-recently become very successful at generating high-quality and diverse samples in many
-fields and may overcome the problems seen in GANs. The goal is to train PassDiffusion on
-the RockYou dataset and compare it against PassGAN and a simple rule-based method. By
-testing these models on a hidden test set, we hope to show whether diffusion models can
-better capture real human password behavior and help improve password strength auditing.
 
-## Goals
-### 1. Compare Against Baselines
-Benchmark against PassGAN (GAN baseline) and a simple rule-based method using match rate on a held-out test set.
+Passwords remain the most common way people protect their online accounts, yet many users continue to choose predictable ones. Security tools like Hashcat attempt to guess passwords using rule-based methods such as appending numbers, substituting symbols, or capitalizing words. These rules work well for simple patterns but cannot adapt to new trends or capture the complex structure behind how humans create passwords.
 
-### 2. Build PassDiffusion
-Train a diffusion-based password generator on the RockYou dataset combined with latest dataset leaks to learn human password distributions.
+Recent research showed that a generative adversarial network (PassGAN) can learn password patterns directly from leaked datasets like RockYou, improving guessing without relying on handcrafted rules. However, GANs have known issues. Unstable training and mode collapse that limit their diversity. This project builds two additional generators, **PassDiffusion** (absorbing-state discrete diffusion model) and **PassGPT+** (character-level fine-tuned GPT-2), and benchmarks all three against Hashcat on a held-out test set using match rate as the evaluation metric.
 
-### 3. Final product
-- Comparative analysis of diffusion models (PassDiffusion) over GAN model (PassGAN)
-- Password Strength Estimation WebApp and Research Paper (if findings are substantial enough that warrants a research paper)
+---
 
-## Milestone 1: Problem + Baseline
-- PassGAN replication, data prep
-- PyTorch implementation—6.9% match
+## Project Description
 
-## Milestone 2: PassDiffusion
-- Implement & train diffusion model
-- Integrate latest password leak datasets
+This project compares four password generation approaches:
 
-## Milestone 3: Evaluation & Report
-- Full comparison, final write-up
-- Password strength estimation WebApp
+| Model | Type | Description |
+|---|---|---|
+| **PassGAN** | GAN (WGAN-GP) | 1D ResNet generator + discriminator, trained on RockYou |
+| **PassDiffusion** | Discrete Diffusion + Transformer | Absorbing-state masked diffusion with a 6-layer transformer denoiser |
+| **PassGPT+** | Autoregressive LM | GPT-2 fine-tuned character-level on password datasets |
+| **Hashcat** | Rule-based | Traditional password cracker used as a non-ML baseline |
 
-## Datasets Used
-### For Milestone 1
-1. https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
-### For Milestone 2 Onwards
-2. 2025 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2025-199_most_used_passwords.txt
-3. 2024 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2024-197_most_used_passwords.txt
-4. 2023 Most Used Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/2023-200_most_used_passwords.txt
-5. 2017 Dark Web 10,000 Leaked Passwords: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/darkweb2017_top-10000.txt
-6. Lizard Squad Hacker Group: https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/Lizard-Squad.txt 
+The evaluation metric is **match rate**: the fraction of unique generated passwords that appear in the held-out test set.
 
-## Presentation Slides For Milestone 1
-https://tinyurl.com/PassDiffusion 
+---
+
+## Milestones
+
+### Milestone 1 — PassGAN Baseline (Done)
+- Replicated PassGAN using WGAN-GP in PyTorch
+- Achieved **6.9% match rate** on held-out test set from RockYou dataset
+
+### Milestone 2 — PassDiffusion & PassGPT+ (Done)
+- Implemented absorbing-state discrete diffusion model (PassDiffusion)
+- Fine-tuned GPT-2 character-level on password datasets (PassGPT+)
+- Integrated additional leaked password datasets for training
+
+### Milestone 3 — Full Evaluation & Report (Done)
+- Comparative analysis across all four models
+- Conference Paper 
+
+---
+
+## Data Sources
+
+All models are trained and evaluated on password data from real-world leaks. The data is **not included** in this repository — download and place in `data/` as described below.
+
+| Dataset | Used By | Link |
+|---|---|---|
+| RockYou (14M passwords) | PassGAN, PassDiffusion, PassGPT+ | [Kaggle](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt) |
+| Ignis 10M (2020 leak) | PassGPT+, Hashcat | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
+
+First download RockYou dataset from Kaggle and place it into `data/fullData.txt`. 
+Once training and testing has been done using this dataset, you can download Ignis 10M dataset. Remove any txt files that contain RockYou dataset. Finally, place Ignis 10M dataset into `data/fullData.txt`.
+
+---
+
+## Repository Structure
+
+```
+.
+├── data/
+│   ├── fullData.txt          # RockYOU / 
+│   ├── train.txt             # 80% split (generated by split_data.py)
+│   └── test.txt              # 20% held-out split (generated by split_data.py)
+├── diffusion/
+│   ├── model.py              # DiffusionTransformer architecture
+│   ├── train.py              # PassDiffusion training loop
+│   ├── generate.py           # PassDiffusion password generation
+│   ├── utils.py              # PasswordVocab and PasswordDataset
+│   └── vocab.json            # Character vocabulary (generated by diffusion/train.py)
+├── models.py                 # PassGAN Generator and Discriminator (WGAN-GP)
+├── train.py                  # PassGAN training loop
+├── generate.py               # PassGAN password generation
+├── utils.py                  # PassGAN TextDataset and vocabulary
+├── gpt2train.py              # PassGPT+ fine-tuning script
+├── gpt2generate.py           # PassGPT+ password generation
+├── split_data.py             # Splits fullData.txt into train.txt / test.txt
+├── passCompare.py            # Evaluates match rate vs held-out test set
+├── vocab.json                # PassGAN character vocabulary
+└── requirements.txt          # Python dependencies
+```
+
+---
+
+## Required Packages
+
+Python 3.10+ is recommended. Install all dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
+
+Key packages:
+
+| Package | Version | Purpose |
+|---|---|---|
+| `torch` | 2.10.0 | Model training and inference |
+| `transformers` | 5.1.0 | GPT-2 fine-tuning (PassGPT+) |
+| `datasets` | — | HuggingFace dataset wrapper for GPT-2 training |
+| `tqdm` | 4.67.3 | Progress bars |
+| `numpy` | 2.4.2 | Numerical ops |
+
+> **Windows GPU note:** If training on Windows with CUDA, see the Windows-specific section at the bottom of `requirements.txt` for adjusted package versions.
+
+---
+
+## How to Run
+
+### Step 0 — Prepare Data
+
+Place your combined password file at `data/fullData.txt`, then split into train/test:
+
+```bash
+python split_data.py
+```
+
+This creates `data/train.txt` (80%) and `data/test.txt` (20% held-out, deduplicated against train).
+
+---
+
+### PassGAN
+
+**Train:**
+```bash
+python train.py
+```
+Trains the WGAN-GP model. Saves weights to `generator_weights.pth` and vocabulary to `vocab.json`.
+
+**Generate:**
+```bash
+python generate.py
+```
+Loads `generator_weights.pth` and generates 1,000,000 passwords to `generated_1e6.txt`.
+
+---
+
+### PassDiffusion
+
+**Train:**
+```bash
+python diffusion/train.py
+```
+Runs from the project root. Trains the diffusion transformer on `data/train.txt`. Saves weights to `diffusion/model_weights.pth` and vocabulary to `diffusion/vocab.json`.
+
+**Generate:**
+```bash
+python diffusion/generate.py
+```
+Loads trained weights and generates 1,000,000 passwords to `diffusion/generated_passwords_1e6.txt` using 200-step reverse diffusion.
+
+---
+
+### PassGPT+
+
+**Train:**
+```bash
+python gpt2train.py
+```
+Fine-tunes GPT-2 character-level on `data/train.txt`. Saves the model to `gpt2_password_model/`. Training on the full dataset takes ~2–3 hours on GPU.
+
+**Generate:**
+```bash
+python gpt2generate.py
+```
+Loads `gpt2_password_model/` and generates 10,000 passwords to `data/gpt2_generated_1e4.txt`.
+
+---
+
+### Evaluate (Match Rate)
+
+```bash
+python passCompare.py
+```
+
+Computes match rate: `|generated ∩ test_set| / |test_set|`. Edit the `generated_file` variable at the top of `passCompare.py` to point to whichever model's output you want to evaluate.
+
+---
+
+## Results (So Far)
+
+| Model | Match Rate |
+|---|---|
+| PassGAN | 6.9% |
+| PassDiffusion | In progress |
+| PassGPT+ | In progress |
+| Hashcat | In progress |
+
+---
+
+## Presentation
+
+Milestone 1 slides: https://tinyurl.com/PassDiffusion
+
+---
 
 ## References
-1. PassGAN: A Deep Learning Approach for Password Guessing 
-https://arxiv.org/pdf/1709.00440
 
-2. PassGAN Code: https://github.com/brannondorsey/PassGAN/tree/master
+1. PassGAN: A Deep Learning Approach for Password Guessing — https://arxiv.org/pdf/1709.00440
+2. PassGAN original code — https://github.com/brannondorsey/PassGAN

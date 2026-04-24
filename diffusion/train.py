@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from utils import PasswordVocab, PasswordDataset
 from model import DiffusionTransformer
 
-# Config
+#config
 DATA_FILE    = "data/train.txt"
 VOCAB_FILE   = "diffusion/vocab.json"
 WEIGHTS_FILE = "diffusion/model_weights.pth"
@@ -21,7 +21,8 @@ N_LAYERS   = 6
 BATCH_SIZE = 512
 LR         = 1e-4
 EPOCHS     = 10
-T          = 1000      # total diffusion timesteps
+#total diffusion timesteps
+T          = 1000 
 BETA_START = 1e-4
 BETA_END   = 0.02
 
@@ -34,26 +35,24 @@ def make_alpha_bar(T, beta_start, beta_end, device):
 
 
 
-#Forward diffusion q(x_t | x_0)
+#forward diffusion q(x_t | x_0)
 def q_sample(x0, t, alpha_bar, mask_id):
-    """
-    For each token independently:
-      - keep original with prob  ᾱ_t
-      - replace with [MASK] with prob (1 - ᾱ_t)
-    """
-    alpha_t  = alpha_bar[t]                               # (B,)
-    keep     = torch.bernoulli(                           # (B, seq_len) bool
+
+    #(B,)
+    alpha_t  = alpha_bar[t]    
+    #(B, seq_len) bool                    
+    keep     = torch.bernoulli(                          
         alpha_t.unsqueeze(1).expand_as(x0).float()
     ).bool()
     mask_tok = torch.full_like(x0, mask_id)
     return torch.where(keep, x0, mask_tok)
 
-#Training loop
+#training loop
 def train():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Training on: {device}")
 
-    # Build vocabulary from training data
+    #build vocabulary from training data
     print(f"Loading passwords from {DATA_FILE} ...")
     with open(DATA_FILE, 'r', encoding='utf-8', errors='ignore') as f:
         passwords = [
@@ -92,22 +91,25 @@ def train():
         total_batches = 0
 
         for batch in loader:
-            x0 = batch.to(device)          # (B, seq_len)
+            #(B, seq_len)
+            x0 = batch.to(device)          
             B  = x0.size(0)
 
             t   = torch.randint(0, T, (B,), device=device)
             x_t = q_sample(x0, t, alpha_bar, vocab.mask_id)
+            #(B, seq_len, vocab_size)
+            logits = model(x_t, t)       
 
-            logits = model(x_t, t)         # (B, seq_len, vocab_size)
-
-            # Loss only on positions that were masked
+            #loss only on positions that were masked
             masked = (x_t == vocab.mask_id)
             if masked.sum() == 0:
                 continue
 
             loss = F.cross_entropy(
-                logits[masked],            # (N_masked, vocab_size)
-                x0[masked],               # (N_masked,)
+                #(N_masked, vocab_size)
+                logits[masked],     
+                #(N_masked,)      
+                x0[masked],               
             )
 
             optimizer.zero_grad()
