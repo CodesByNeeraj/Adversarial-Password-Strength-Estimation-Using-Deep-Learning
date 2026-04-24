@@ -2,6 +2,24 @@
 data/fullData.txt
 data/train.txt
 data/test.txt
+data/rockyou.txt
+data/*.txt
 generated_passwords.txt
 generated_passwordstest.txt
+generated_1e6.txt
+generated_passwordstest_1e7.txt
+
+# Generated password output files
+data/gpt2_generated*.txt
+data/2020LeakedPw*.txt
+data/transformer_generated*.txt
+diffusion/generated_passwords.txt
+gpt2_generated.txt
+gpt2_generated_50Ktrain.txt
+phi2_generated.txt
+ollama_generated.txt
+password_exp/
 *.pth
+
+# Zone identifier files (Windows artifact)
+*Zone.Identifier
