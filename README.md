@@ -4,10 +4,25 @@ Can generative AI model the probability distribution of human-created passwords 
 
 ## Abstract
 
-Passwords remain the most common way people protect their online accounts, yet many users continue to choose predictable ones. Security tools like Hashcat attempt to guess passwords using rule-based methods such as appending numbers, substituting symbols, or capitalizing words. These rules work well for simple patterns but cannot adapt to new trends or capture the complex structure behind how humans create passwords.
-
-Recent research showed that a generative adversarial network (PassGAN) can learn password patterns directly from leaked datasets like RockYou, improving guessing without relying on handcrafted rules. However, GANs have known issues. Unstable training and mode collapse that limit their diversity. This project builds two additional generators, **PassDiffusion** (absorbing-state discrete diffusion model) and **PassGPT+** (character-level fine-tuned GPT-2), and benchmarks all three against Hashcat on a held-out test set using match rate as the evaluation metric.
-
+Password guessing has long been studied through
+rule-based tools and, more recently, through deep generative
+models such as PassGAN and PassGPT. We revisit this problem
+from the transfer learning perspective and pose the question:
+whether sequential pattern knowledge acquired during large-
+scale language pre-training is useful for modeling human-chosen
+passwords. We introduce PassGPT+, a fine-tuned variant of pre-
+trained GPT-2 with character-aware tokenization and frequency-
+weighted training. We additionally explore PassDiffusion, the
+first application of discrete denoising diffusion to password
+generation. On the RockYou benchmark, PassGPT+ recovers
+22.53% of unseen test passwords at 108 guesses, improving
+on PassGPT by 16% relative and surpassing Hashcat once
+the generation size exceeds 106. Cross-distribution evaluation
+on a 2020 leak shows that PassGPT+ retains roughly 79% of
+its match rate without retraining. In contrast, PassDiffusion
+underperforms by orders of magnitude, providing evidence
+that diffusion’s iterative-refinement objective is structurally
+mismatched to exact discrete sequence generation.
 ---
 
 ## Project Description
