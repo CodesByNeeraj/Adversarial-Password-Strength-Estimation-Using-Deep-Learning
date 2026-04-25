@@ -285,5 +285,29 @@ Milestone 1 slides: https://tinyurl.com/PassDiffusion
 
 ## References
 
-1. PassGAN: A Deep Learning Approach for Password Guessing — https://arxiv.org/pdf/1709.00440
-2. PassGAN original code — https://github.com/brannondorsey/PassGAN
+1. J. L. Wayman, A. K. Jain, D. Maltoni, and D. Maio, Biometric Systems: Technology, Design and Performance Evaluation. Springer, 2005.
+2. T. Hunt, "Here's why [insert thing here] is not a password killer," https://www.troyhunt.com/heres-why-insert-thing-here-is-not-a-password-killer/, 2018.
+3. M. Dell'Amico, P. Michiardi, and Y. Roudier, "Password strength: An empirical analysis," in Proc. IEEE INFOCOM, 2010, pp. 1–9.
+4. D. Wang, H. Cheng, P. Wang, X. Huang, and G. Jian, "Zipf's law in passwords," IEEE Transactions on Information Forensics and Security, vol. 12, no. 11, pp. 2776–2791, 2017.
+5. Hashcat, "Advanced password recovery," https://hashcat.net/hashcat/, 2024.
+6. Openwall, "John the ripper password cracker," https://www.openwall.com/john/, 2024.
+7. M. Weir, S. Aggarwal, B. D. Medeiros, and B. Glodek, "Password cracking using probabilistic context-free grammars," in Proc. IEEE Symposium on Security and Privacy, 2009, pp. 391–405.
+8. M. Dürmuth, F. Angelstorf, C. Castelluccia, D. Perito, and A. Chaabane, "Omen: Faster password guessing using an ordered markov enumerator," in Proc. Engineering Secure Software and Systems (ESSoS), 2015, pp. 119–132.
+9. B. Hitaj, P. Gasti, G. Ateniese, and F. Perez-Cruz, "Passgan: A deep learning approach for password guessing," in Proc. Applied Cryptography and Network Security (ACNS), 2019, pp. 217–237.
+10. I. Gulrajani, F. Ahmed, M. Arjovsky, V. Dumoulin, and A. C. Courville, "Improved training of Wasserstein GANs," in Advances in Neural Information Processing Systems (NeurIPS), vol. 30, 2017, pp. 5767–5777.
+11. J. Rando, F. Perez-Cruz, and B. Hitaj, "Passgpt: Password modeling and (guided) generation with large language models," arXiv preprint arXiv:2306.01545, 2023.
+12. A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, and I. Sutskever, "Language models are unsupervised multitask learners," OpenAI Blog, 2019.
+13. X. Su, X. Zhu, Y. Li, Y. Li, C. Chen, and P. E. Veríssimo, "Pagpassgpt: Pattern guided password guessing via generative pretrained transformer," in Proc. IEEE/IFIP DSN, 2024, pp. 429–442.
+14. G. Pagnotta, D. Hitaj, F. D. Gaspari, and L. V. Mancini, "Passflow: Guessing passwords with generative flows," in Proc. IEEE/IFIP DSN, 2022, pp. 251–262.
+15. W. Melicher, B. Ur, S. M. Segreti, S. Komanduri, L. Bauer, N. Christin, and L. F. Cranor, "Fast, lean, and accurate: Modeling password guessability using neural networks," in Proc. USENIX Security Symposium, 2016, pp. 175–191.
+16. X. Yang and D. Wang, "Rankguess: A password guessing framework based on adversarial ranking," in Proc. IEEE Symposium on Security and Privacy (S&P), 2025.
+17. A. Radford, K. Narasimhan, T. Salimans, and I. Sutskever, "Improving language understanding by generative pre-training," OpenAI, 2018.
+18. J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, "Bert: Pre-training of deep bidirectional transformers for language understanding," in Proc. NAACL-HLT, 2019, pp. 4171–4186.
+19. T. Brown, B. Mann, N. Ryder, M. Subbiah, J. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell et al., "Language models are few-shot learners," in Advances in Neural Information Processing Systems (NeurIPS), vol. 33, 2020, pp. 1877–1901.
+20. W. Burns, "Common password list (RockYou.txt)," Kaggle Dataset, 2018. Available: https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt
+21. Ignis Sec, "Pwdb-Public: Password database wordlists (ignis-10M.txt)," GitHub repository, 2020. Available: https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt
+22. A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, "Attention is all you need," in Advances in Neural Information Processing Systems (NeurIPS), vol. 30, 2017.
+23. I. Loshchilov and F. Hutter, "Decoupled weight decay regularization," in Proc. 7th Int. Conf. Learning Representations (ICLR), 2019.
+24. J. Austin, D. D. Johnson, J. Ho, D. Tarlow, and R. van den Berg, "Structured denoising diffusion models in discrete state-spaces," in Advances in Neural Information Processing Systems (NeurIPS), vol. 34, 2021.
+25. W. Peebles and S. Xie, "Scalable diffusion models with transformers," in Proc. IEEE/CVF Int. Conf. Computer Vision (ICCV), 2023, pp. 4195–4205.
+26. D. Pasquini, A. Gangwal, G. Ateniese, M. Bernaschi, and M. Conti, "Improving password guessing via representation learning," Proc. IEEE Symp. Security and Privacy (S&P), pp. 1382–1399, 2021.
