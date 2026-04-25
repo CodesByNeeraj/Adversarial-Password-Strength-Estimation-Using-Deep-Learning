@@ -10,15 +10,17 @@ Password guessing has long been studied through rule-based tools and, more recen
 
 ## Project Description
 
-This project compares four password generation approaches:
+This project compares seven password generation approaches:
 
-| Model | Type | Description |
+| Model | Type | Architecture/Ideas |
 |---|---|---|
-| **PassGAN** | GAN (WGAN-GP) | 1D ResNet generator + discriminator, trained on RockYou |
-| **PassGAN\*** | GAN (WGAN-GP) | Same WGAN backbone + representation learning enhancements |
-| **PassDiffusion** | Discrete Diffusion + Transformer | Absorbing-state masked diffusion with a 6-layer transformer denoiser |
-| **PassGPT+** | Autoregressive LM | GPT-2 fine-tuned character-level on password datasets |
-| **Hashcat** | Rule-based | Traditional password cracker used as a non-ML baseline |
+| **Hashcat** | Rule-based | Hand-crafted transformations (dictionary, leet, concatenation) — non-ML baseline |
+| **PassGAN** | GAN (WGAN-GP) | 1D ResNet generator + discriminator, trained from scratch on RockYou |
+| **PassGAN\*** | GAN + Representation Learning | PassGAN backbone enhanced with representation learning, conditional generation, and dynamic reweighting |
+| **PassGPT** | Autoregressive Transformer | GPT-2-style decoder trained **from scratch** on RockYou with custom 256-character tokenizer |
+| **PassVQT** | VQ-Transformer | Encoder–decoder with **vector quantization** bottleneck for discrete latent password representation |
+| **PassDiffusion** *(ours)* | Discrete Diffusion + Transformer | First **absorbing-state masked diffusion** model for passwords; 6-layer bidirectional transformer denoiser |
+| **PassGPT+** *(ours)* | Autoregressive LM | **Pre-trained GPT-2 fine-tuned** on passwords with character-mapped BPE tokenization |
 
 The evaluation metric is **match rate**: the fraction of unique generated passwords that appear in the held-out test set.
 
