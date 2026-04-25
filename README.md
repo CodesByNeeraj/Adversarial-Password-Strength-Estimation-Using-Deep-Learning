@@ -15,6 +15,7 @@ This project compares four password generation approaches:
 | Model | Type | Description |
 |---|---|---|
 | **PassGAN** | GAN (WGAN-GP) | 1D ResNet generator + discriminator, trained on RockYou |
+| **PassGAN\*** | GAN (WGAN-GP) | Same WGAN backbone + representation learning enhancements |
 | **PassDiffusion** | Discrete Diffusion + Transformer | Absorbing-state masked diffusion with a 6-layer transformer denoiser |
 | **PassGPT+** | Autoregressive LM | GPT-2 fine-tuned character-level on password datasets |
 | **Hashcat** | Rule-based | Traditional password cracker used as a non-ML baseline |
