@@ -47,12 +47,12 @@ The evaluation metric is **match rate**: the fraction of unique generated passwo
 
 ## Data Sources
 
-All models are trained and evaluated on password data from real-world leaks. The data is **not included** in this repository — download and place in `data/` as described below.
+All models are trained and evaluated on password data from real-world leaks. The data is **not included** in this repository because of big file size — download and place in `data/` as described below.
 
 | Dataset | Used By | Link |
 |---|---|---|
-| RockYou (14M passwords) [20] | PassGAN, PassDiffusion, PassGPT+ | [Kaggle](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt) |
-| Ignis 10M (2020 leak) [21] | PassGPT+, Hashcat | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
+| RockYou (14M passwords) [20] | PassGAN, PassGAN\* PassGPT, PassVQT, Hashcat, PassDiffusion, and PassGPT+ | [Kaggle](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt) |
+| Ignis 10M (2020 leak) [21] | PassGPT+ | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
 
 Download RockYou from Kaggle and place it at `data/fullData.txt`. Download Ignis 10M and place it at `data/2020LeakedPw_10M.txt`. See **Step 0** under How to Run for the full data prep workflow.
 
