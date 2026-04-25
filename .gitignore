@@ -23,3 +23,5 @@ password_exp/
 
 # Zone identifier files (Windows artifact)
 *Zone.Identifier
+
+venv

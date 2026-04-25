@@ -94,6 +94,10 @@ Download RockYou from Kaggle and place it at `data/fullData.txt`. Download Ignis
 ├── split_data.py             # Splits fullData.txt into train.txt / test.txt
 ├── filter_2020leak.py        # Removes RockYou duplicates from 2020LeakedPw_10M.txt
 ├── filter_2020leak_pen.py    # Filters result of above to passwords <= 10 characters
+├── sample_gpt2_1e6.py        # Down-samples PassGPT+ 1M output to match another model's unique count for fair comparison
+├── sample_hashcat.py         # Cleans and samples raw Hashcat output (handles non-UTF-8)
+├── sample_hashcat_max10.py   # Samples from max-10-char filtered Hashcat output to produce 1e7 comparison file
+├── sample_2020leak_test.py   # Samples from Ignis 10M filtered dataset to create a held-out test set
 ├── passCompare.py            # Evaluates match rate vs held-out test set
 ├── vocab.json                # PassGAN character vocabulary
 └── requirements.txt          # Python dependencies
@@ -197,15 +201,15 @@ Fine-tunes GPT-2 character-level on `data/train.txt`. Saves the model to `gpt2_p
 ```bash
 python gpt2generate.py
 ```
-Loads `gpt2_password_model/` and generates 10,000 passwords to `data/gpt2_generated_1e4.txt`.
+Loads `gpt2_password_model/` and generates 10,000 passwords (adjustable. set to how much you want to generate) to `data/gpt2_generated_1e4.txt`.
 
 ---
 
 ### Hashcat (Rule-based Baseline)
 
-Hashcat is not a Python script — it is a standalone binary. Download it from https://hashcat.net/hashcat/ and extract the binaries.
+Hashcat is not a Python script. It is a standalone binary. Download it from https://hashcat.net/hashcat/ and extract the binaries.
 
-Hashcat was run using `data/train.txt` as the wordlist with the `base64` rule to generate candidate passwords at different scales. The outputs were saved to `generated/hashcat_1e4_sample.txt`, `generated/hashcat_1e5_sample.txt`, and `generated/hashcat_1e7_sample.txt`.
+Hashcat was run using `data/train.txt` as the wordlist with the `base64` rule to generate candidate passwords at different scales. The outputs were saved to `generated/hashcat_1e4_sample.txt`, `generated/hashcat_1e5_sample.txt`, `generated/hashcat_1e6_sample.txt`and `generated/hashcat_1e7_sample.txt`.
 
 ---
 
@@ -222,6 +226,7 @@ generated/
 ├── gpt2_generated_1e8.txt
 ├── hashcat_1e4_sample.txt
 ├── hashcat_1e5_sample.txt
+├── hashcat_1e6_sample.txt
 └── hashcat_1e7_sample.txt
 ```
 
@@ -230,7 +235,10 @@ Then run:
 python passCompare.py
 ```
 
-Computes match rate: `|generated ∩ test_set| / |test_set|`. Edit the `generated_file` variable at the top of `passCompare.py` to point to whichever file you want to evaluate.
+Computes match rate: `|generated ∩ test_set| / |test_set|`. Edit the variables at the top of `passCompare.py` before running:
+
+- `generated_file` — point to whichever model's output you want to evaluate
+- `test_file` — defaults to `data/test.txt` (RockYou held-out set). When evaluating against the 2020 Ignis leak, change this to `data/2020LeakedPw_10M_filtered_max10_testset.txt`
 
 ---
 

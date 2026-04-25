@@ -1,0 +1,39 @@
+Qns: Why did we use RMSprop over Adam Optimizer?
+Ans: 
+Adam uses Momentum, and Momentum breaks WGAN (with weight clipping)
+In a GAN, the "mountain" is moving. Every time we update the Discriminator, the landscape changes completely.
+If Adam builds up momentum thinking, "I need to go Left!", but the Discriminator suddenly changes and says, "No, now the answer is Right!", Adam can't turn around fast enough. It "overshoots" and crashes.
+RMSprop is very similar to Adam, but it does not use Momentum by default.
+
+Qns: Why do we introduce gradient penalty?
+Ans:
+1. The Critic's Goal
+The WGAN Critic's loss function is roughly:
+Maximize[D(Real)−D(Fake)]
+It wants to make the score for Real data as high as possible and the score for Fake data as low as possible.
+
+2. The "Cheating" Strategy
+Imagine the Critic is a simple linear function: D(x)=w⋅x (where w is the weight).
+Let's say Real data is x=1 and Fake data is x=0.
+If w=1, the difference is (1⋅1)−(1⋅0)=1.
+If w=10, the difference is (10⋅1)−(10⋅0)=10.
+If w=1,000,000, the difference is 1,000,000.
+Since the Critic wants to maximize that difference, it has no reason to stop increasing the weights. It will push w towards infinity to get a higher and higher score separation.
+
+3. Weights = Gradient (Slope)
+In a neural network, the "gradient with respect to the input" (the slope) is directly tied to the size of the weights.
+If D(x)=5x, the slope is 5.
+If D(x)=1,000,000x, the slope is 1,000,000.
+If the weights explode, the slope explodes. The function becomes a vertical cliff.
+
+4. Why is this bad for the Generator?
+The Generator learns by "rolling down the hill" created by the Critic.
+Good Scenario (Slope = 1): The Critic creates a smooth hill. The Generator rolls down gently and learns exactly which direction to go.
+Bad Scenario (Slope = Infinity): The Critic creates a vertical cliff. When the Generator tries to calculate a step size (Gradient Descent), the math says "Move 1,000,000 steps to the right!"
+The Generator takes a massive leap, overshoots the target completely, and ruins its own weights.
+This is called the Exploding Gradient Problem.
+
+5. The Solution
+The Gradient Penalty forces the slope to be exactly 1. It tells the Critic:
+"You need to separate Real from Fake, BUT you are not allowed to make the hill steeper than 45 degrees."
+This forces the Critic to learn meaningful features (shapes, patterns) to separate the data, rather than just multiplying everything by a billion.

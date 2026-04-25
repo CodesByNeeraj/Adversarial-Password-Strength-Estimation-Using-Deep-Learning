@@ -1,0 +1,9 @@
+# 1. Train                                                                                           
+python transformertrain.py                                                                             
+                                                                                                    
+# 2. Generate passwords                                                                                
+python transformergenerate.py
+                                                                                                        
+# 3. Compare against test set                                                                        
+# (edit passCompare.py to point generated_file = "transformer_generated_passwords.txt")
+python passCompare.py     
