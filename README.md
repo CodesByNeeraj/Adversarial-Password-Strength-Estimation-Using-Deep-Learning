@@ -277,7 +277,8 @@ PassGAN* and PassVQT are prior reproductions from the literature. PassGPT+ outpe
 ## Presentation
 
 Milestone 1 slides: https://tinyurl.com/PassDiffusion
-Milestone 2 & 3: https://drive.google.com/drive/u/1/folders/1oq-ibfZI1FRdpauls5cvRozCnnhe9Cdf 
+
+Milestone 2 & 3: https://drive.google.com/drive/u/1/folders/1oq-ibfZI1FRdpauls5cvRozCnnhe9Cdf
 
 ---
 
