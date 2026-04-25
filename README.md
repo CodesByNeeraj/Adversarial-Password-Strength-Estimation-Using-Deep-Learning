@@ -19,8 +19,8 @@ This project compares seven password generation approaches:
 | **PassGAN\*** | GAN + Representation Learning | PassGAN backbone enhanced with representation learning, conditional generation, and dynamic reweighting |
 | **PassGPT** | Autoregressive Transformer | GPT-2-style decoder trained **from scratch** on RockYou with custom 256-character tokenizer |
 | **PassVQT** | VQ-Transformer | Encoder–decoder with **vector quantization** bottleneck for discrete latent password representation |
-| **PassDiffusion** *(ours)* | Discrete Diffusion + Transformer | First **absorbing-state masked diffusion** model for passwords; 6-layer bidirectional transformer denoiser |
-| **PassGPT+** *(ours)* | Autoregressive LM | **Pre-trained GPT-2 fine-tuned** on passwords with character-mapped BPE tokenization |
+| **PassDiffusion** *(Proposed)* | Discrete Diffusion + Transformer | First **absorbing-state masked diffusion** model for passwords; 6-layer bidirectional transformer denoiser |
+| **PassGPT+** *(Proposed)* | Autoregressive LM | **Pre-trained GPT-2 fine-tuned** on passwords with character-mapped BPE tokenization |
 
 The evaluation metric is **match rate**: the fraction of unique generated passwords that appear in the held-out test set.
 
@@ -51,8 +51,8 @@ All models are trained and evaluated on password data from real-world leaks. The
 
 | Dataset | Used By | Link |
 |---|---|---|
-| RockYou (14M passwords) | PassGAN, PassDiffusion, PassGPT+ | [Kaggle](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt) |
-| Ignis 10M (2020 leak) | PassGPT+, Hashcat | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
+| RockYou (14M passwords) [20] | PassGAN, PassDiffusion, PassGPT+ | [Kaggle](https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt) |
+| Ignis 10M (2020 leak) [21] | PassGPT+, Hashcat | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
 
 Download RockYou from Kaggle and place it at `data/fullData.txt`. Download Ignis 10M and place it at `data/2020LeakedPw_10M.txt`. See **Step 0** under How to Run for the full data prep workflow.
 
