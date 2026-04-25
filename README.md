@@ -1,4 +1,4 @@
-# Adversarial Password Strength Estimation Using Deep Learning
+# PassGPT+: Enhanced Password Guessing with Fine-Tuned Language Models
 
 Can generative AI model the probability distribution of human-created passwords better than traditional rule-based algorithms?
 
