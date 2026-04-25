@@ -29,6 +29,7 @@ The evaluation metric is **match rate**: the fraction of unique generated passwo
 - Replicated PassGAN using WGAN-GP in PyTorch
 - Achieved **6.9% match rate** on held-out test set from RockYou dataset
 
+
 ### Milestone 2 — PassDiffusion & PassGPT+ (Done)
 - Implemented absorbing-state discrete diffusion model (PassDiffusion)
 - Fine-tuned GPT-2 character-level on password datasets (PassGPT+)
@@ -37,6 +38,7 @@ The evaluation metric is **match rate**: the fraction of unique generated passwo
 ### Milestone 3 — Full Evaluation & Report (Done)
 - Comparative analysis across all four models
 - Conference Paper (To Be Made Public Soon)
+
 
 ---
 
@@ -50,6 +52,8 @@ All models are trained and evaluated on password data from real-world leaks. The
 | Ignis 10M (2020 leak) | PassGPT+, Hashcat | [GitHub](https://github.com/ignis-sec/Pwdb-Public/blob/master/wordlists/ignis-10M.txt) |
 
 Download RockYou from Kaggle and place it at `data/fullData.txt`. Download Ignis 10M and place it at `data/2020LeakedPw_10M.txt`. See **Step 0** under How to Run for the full data prep workflow.
+
+**To view all datasets used: [Click Here](https://drive.google.com/drive/folders/1cFA4aQ4ACqyhEthrTecfG48ck4KJrd5r?usp=drive_link)**
 
 ---
 
