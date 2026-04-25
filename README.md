@@ -89,8 +89,7 @@ Download RockYou from Kaggle and place it at `data/fullData.txt`. Download Ignis
 ├── filter_2020leak.py        # Removes RockYou duplicates from 2020LeakedPw_10M.txt
 ├── filter_2020leak_pen.py    # Filters result of above to passwords <= 10 characters
 ├── sample_gpt2_1e6.py        # Down-samples PassGPT+ 1M output to match another model's unique count for fair comparison
-├── sample_hashcat.py         # Cleans and samples raw Hashcat output (handles non-UTF-8)
-├── sample_hashcat_max10.py   # Samples from max-10-char filtered Hashcat output to produce 1e7 comparison file
+├── sample_hashcat.py         # Cleans and samples raw Hashcat output (handles non-UTF-8, filters to <= 10 chars)
 ├── sample_2020leak_test.py   # Samples from Ignis 10M filtered dataset to create a held-out test set
 ├── passCompare.py            # Evaluates match rate vs held-out test set
 ├── vocab.json                # PassGAN character vocabulary
