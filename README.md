@@ -36,7 +36,7 @@ The evaluation metric is **match rate**: the fraction of unique generated passwo
 - Integrated additional leaked password datasets for training
 
 ### Milestone 3 — Full Evaluation & Report (Done)
-- Comparative analysis across all four models
+- Comparative analysis across all five models
 - Conference Paper (To Be Made Public Soon)
 
 
