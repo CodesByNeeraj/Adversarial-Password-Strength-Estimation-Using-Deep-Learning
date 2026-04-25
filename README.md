@@ -305,3 +305,7 @@ Milestone 2 & 3: https://drive.google.com/drive/u/1/folders/1oq-ibfZI1FRdpauls5c
 24. J. Austin, D. D. Johnson, J. Ho, D. Tarlow, and R. van den Berg, "Structured denoising diffusion models in discrete state-spaces," in Advances in Neural Information Processing Systems (NeurIPS), vol. 34, 2021.
 25. W. Peebles and S. Xie, "Scalable diffusion models with transformers," in Proc. IEEE/CVF Int. Conf. Computer Vision (ICCV), 2023, pp. 4195–4205.
 26. D. Pasquini, A. Gangwal, G. Ateniese, M. Bernaschi, and M. Conti, "Improving password guessing via representation learning," Proc. IEEE Symp. Security and Privacy (S&P), pp. 1382–1399, 2021.
+
+---
+
+© 2026 Neeraj Lakshmanan & Rajneesh Anand. All rights reserved.
