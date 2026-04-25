@@ -1,4 +1,4 @@
-generated_file = "gpt2_generated.txt"
+generated_file = "generated/gpt2_generated.txt"
 test_file = "data/test.txt"
 
 
