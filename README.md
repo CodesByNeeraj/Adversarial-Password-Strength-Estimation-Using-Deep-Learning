@@ -1,4 +1,4 @@
-# PassGPT+: Enhanced Password Guessing with Fine-Tuned Language Models
+# PassGPT+: Password Guessing via Transfer Learning with Fine-Tuned Language Models
 
 Can generative AI model the probability distribution of human-created passwords better than traditional rule-based algorithms?
 
