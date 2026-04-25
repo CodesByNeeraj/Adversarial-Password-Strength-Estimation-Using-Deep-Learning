@@ -39,8 +39,8 @@ The evaluation metric is **match rate**: the fraction of unique generated passwo
 - Integrated additional leaked password datasets for training
 
 ### Milestone 3 — Full Evaluation & Report (Done)
-- Comparative analysis across all five models
-- Conference Paper (To Be Made Public Soon)
+- Comparative analysis across all seven models (listed above in Project Description)
+- Conference Paper (Coming soon ...)
 
 
 ---
@@ -273,15 +273,15 @@ Match rate (%) by number of guesses. All values on the RockYou benchmark (held-o
 | 10⁷ | 2.04 | — | 2.90 | 4.25 | 0.030 | 4.65 | **5.66** |
 | 10⁸ | 6.73 | 9.51 | 10.30 | 19.37 | — | — | **22.53** |
 
-PassGAN* and PassVQT are prior reproductions from the literature. PassGPT+ outperforms all baselines at 10⁸ guesses, surpassing Hashcat beyond 10⁶ guesses.
+PassGAN [9], PassGAN* [26], PassGPT [11], and PassVQT [11] are prior reproductions from the literature. PassGPT+ outperforms all baselines at 10⁸ guesses, surpassing Hashcat beyond 10⁶ guesses.
 
 ---
 
 ## Presentation
 
-Milestone 1 slides: https://tinyurl.com/PassDiffusion
+Milestone 1 slides: [Click Here](https://tinyurl.com/PassDiffusion)
 
-Milestone 2 & 3: https://drive.google.com/drive/u/1/folders/1oq-ibfZI1FRdpauls5cvRozCnnhe9Cdf
+Milestone 2 & 3 Posters/Videos: [Click Here](https://drive.google.com/drive/u/1/folders/1oq-ibfZI1FRdpauls5cvRozCnnhe9Cdf)
 
 ---
 
