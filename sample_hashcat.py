@@ -1,7 +1,9 @@
 import random
 
-INPUT_FILE  = "password_exp/hashcat_generated.txt"
-OUTPUT_FILE = "password_exp/hashcat_generated_sample.txt"
+INPUT_FILE  = "generated/hashcat_generated.txt"
+#change output file directory to hashcat_1e4_sample.txt (1e4,1e5,1e6,1e7)
+OUTPUT_FILE = "generated/hashcat_generated_sample.txt"
+#change sample size to 1e4, 1e5, 1e6, 1e7 respectively
 SAMPLE_SIZE = 2_381_844
 SEED        = 42
 
@@ -13,13 +15,13 @@ with open(INPUT_FILE, "rb") as f:
     for line in f:
         try:
             pwd = line.decode("utf-8").strip()
-            if pwd:
+            if pwd and len(pwd) <= 10:
                 valid.append(pwd)
         except UnicodeDecodeError:
             skipped += 1
 
-print(f"Valid UTF-8 passwords: {len(valid):,}")
-print(f"Skipped (non-UTF-8):   {skipped:,}")
+print(f"Valid UTF-8 passwords (<=10 chars): {len(valid):,}")
+print(f"Skipped (non-UTF-8):                {skipped:,}")
 
 if SAMPLE_SIZE > len(valid):
     raise ValueError(f"Requested {SAMPLE_SIZE:,} but only {len(valid):,} valid passwords available.")
